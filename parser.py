@@ -2,6 +2,8 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
+
+
 URL_DEPARTURES = "https://beg.aero/eng/flights#departures"
 URL_ARRIVALS = "https://beg.aero/eng/flights#arrivals"
 
@@ -13,6 +15,7 @@ class Parser:
         self.day = day
         self.url = None
         self.driver = None
+        self.options = None
         self.table = None
         self.all_flights = None
         self.day_index = None
@@ -20,7 +23,7 @@ class Parser:
         self.chosen_button = None
 
     def run_webdriver(self):
-        self.driver = webdriver.Chrome()
+        self.driver = webdriver.Safari()
         self.driver.get(self.url)
         return self.driver
 
