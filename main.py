@@ -1,15 +1,18 @@
-from parser import Parser
+from aiogram import Bot, Dispatcher, executor, types
 
-if __name__ == "__main__":
-    my_parser = Parser(type_of_schedule='Departures', day='Today')
-    my_parser.run()
-    # my_parser = Parser(type_of_schedule='Departures', day='Tomorrow')
-    # my_parser.run()
-    # my_parser = Parser(type_of_schedule='Departures', day='Yesterday')
-    # my_parser.run()
-    # my_parser = Parser(type_of_schedule='Arrivals', day='Today')
-    # my_parser.run()
-    # my_parser = Parser(type_of_schedule='Arrivals', day='Tomorrow')
-    # my_parser.run()
-    # my_parser = Parser(type_of_schedule='Arrivals', day='Yesterday')
-    # my_parser.run()
+
+MY_TOKEN = "6542990215:AAErSHJUVLj2GEoheBrfyQ2WNrjssnLqZms"
+START_MESSAGE = """Hello! Welcome to Nicola Tesla airport bot. You could get information about arrivals and departures. 
+Please, choose the parameters"""
+
+bot = Bot(MY_TOKEN)
+dp = Dispatcher(bot)
+
+
+@dp.message_handler(commands=['start'])
+async def echo(message: types.Message):
+    await message.answer(text=START_MESSAGE)
+
+
+if __name__ == '__main__':
+    executor.start_polling(dp)
