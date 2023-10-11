@@ -1,8 +1,8 @@
 from parser import Parser
 
-
-my_parser = Parser(type_of_schedule='Departures', day='Today')
-my_parser.run()
+if __name__ == '__main__':
+    my_parser = Parser(type_of_schedule='Departures', day='Today')
+    my_parser.run()
 # my_parser = Parser(type_of_schedule='Departures', day='Tomorrow')
 # my_parser.run()
 # my_parser = Parser(type_of_schedule='Departures', day='Yesterday')

@@ -3,7 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-
 URL_DEPARTURES = "https://beg.aero/eng/flights#departures"
 URL_ARRIVALS = "https://beg.aero/eng/flights#arrivals"
 
@@ -72,7 +71,8 @@ class Parser:
             airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
             gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
             status = flight.find_element(By.CLASS_NAME, 'status__flight')
-            print(scheduled.text, destination.text, flight_number.text,  airline.text,  status.text, gate.text)
+            print(scheduled.text, destination.text, flight_number.text, airline.text, status.text, gate.text)
+            # yield scheduled.text, destination.text, flight_number.text, airline.text, status.text, gate.text
         self.driver.quit()
 
     def run(self):
