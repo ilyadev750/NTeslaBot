@@ -1,6 +1,7 @@
 from aiogram import Bot, Dispatcher, executor, types
 from NTeslaBot.parser.parser import Parser
 
+
 MY_TOKEN = "6542990215:AAErSHJUVLj2GEoheBrfyQ2WNrjssnLqZms"
 
 
@@ -26,5 +27,5 @@ async def echo(message: types.Message):
     await message.answer('TEST WORK')
 
 if __name__ == '__main__':
-    executor.start_polling(dp)
+    executor.start_polling(dp, skip_updates=True)
     
