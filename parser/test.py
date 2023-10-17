@@ -1,7 +1,7 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from parser import URL_ARRIVALS, URL_DEPARTURES
+from parser.parser import URL_ARRIVALS, URL_DEPARTURES
 
 
 class ParserTest(unittest.TestCase):

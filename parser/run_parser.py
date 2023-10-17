@@ -1,4 +1,4 @@
-from parser import Parser
+from parser.parser import Parser
 
 
 my_parser = Parser(type_of_schedule='Departures', day='Today')
