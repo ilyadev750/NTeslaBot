@@ -3,7 +3,6 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 
-
 URL_DEPARTURES = "https://beg.aero/eng/flights#departures"
 URL_ARRIVALS = "https://beg.aero/eng/flights#arrivals"
 
@@ -65,15 +64,16 @@ class Parser:
         time.sleep(1)
         self.get_the_table()
         self.all_flights = self.table.find_elements(By.TAG_NAME, 'tr')
-        for flight in self.all_flights:
-            destination = flight.find_element(By.CLASS_NAME, 'destination__flight')
-            flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
-            scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
-            airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
-            gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
-            status = flight.find_element(By.CLASS_NAME, 'status__flight')
-            print(scheduled.text, destination.text, flight_number.text,  airline.text,  status.text, gate.text)
-        self.driver.quit()
+        return self.all_flights
+
+    def print_flight(self, flight):
+        destination = flight.find_element(By.CLASS_NAME, 'destination__flight')
+        flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
+        scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
+        airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
+        gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
+        status = flight.find_element(By.CLASS_NAME, 'status__flight')
+        yield scheduled.text, destination.text, flight_number.text, airline.text, status.text, gate.text
 
     def run(self):
         self.choose_the_url()
@@ -81,4 +81,9 @@ class Parser:
         self.run_webdriver()
         self.get_chosen_button()
         self.get_all_flights()
+        # for flight in self.all_flights:
+        #     info = self.print_flight(flight=flight)
+        #     print(list(info))
+        # self.driver.quit()
+
 

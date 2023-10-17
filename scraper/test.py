@@ -1,13 +1,14 @@
 import unittest
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from parser.parser import URL_ARRIVALS, URL_DEPARTURES
+
+from scraper import URL_ARRIVALS, URL_DEPARTURES
 
 
 class ParserTest(unittest.TestCase):
 
     def test_arrivals(self):
-        driver = webdriver.Chrome()
+        driver = webdriver.Safari()
         driver.get(URL_ARRIVALS)
         tables = driver.find_elements(By.TAG_NAME, 'tbody')
         arrivals_button = tables[0]
