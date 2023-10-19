@@ -6,7 +6,6 @@ from selenium.webdriver.common.by import By
 URL_DEPARTURES = "https://beg.aero/eng/flights#departures"
 URL_ARRIVALS = "https://beg.aero/eng/flights#arrivals"
 
-
 class Parser:
 
     def __init__(self, type_of_schedule, day):
@@ -60,8 +59,8 @@ class Parser:
         return self.chosen_button
 
     def get_all_flights(self):
+        time.sleep(5)
         self.chosen_button.click()
-        time.sleep(1)
         self.get_the_table()
         self.all_flights = self.table.find_elements(By.TAG_NAME, 'tr')
         return self.all_flights
