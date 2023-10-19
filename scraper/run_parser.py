@@ -1,5 +1,4 @@
 from scraper import Parser
-
 if __name__ == '__main__':
     my_parser = Parser(type_of_schedule='Departures', day='Today')
     my_parser.run()
