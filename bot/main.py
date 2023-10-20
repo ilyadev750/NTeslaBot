@@ -7,6 +7,7 @@ from aiogram import exceptions
 MY_TOKEN = "6542990215:AAErSHJUVLj2GEoheBrfyQ2WNrjssnLqZms"
 START_MESSAGE = """Hello! Welcome to Nicola Tesla airport bot. You could get information about arrivals and departures. 
 Please, choose the parameters"""
+DAY = None
 
 MY_TOKEN = "6542990215:AAErSHJUVLj2GEoheBrfyQ2WNrjssnLqZms"
 
@@ -31,7 +32,7 @@ async def echo(message: types.Message):
 
 
 @dp.message_handler(commands=['departures'])
-async def arrivals(message: types.Message):
+async def departures(message: types.Message):
     await message.answer('Please, choose the day:', reply_markup=keyboard_2)
     # my_parser = Parser(type_of_schedule='Departures', day='Today')
     # my_parser.run()
@@ -42,9 +43,8 @@ async def arrivals(message: types.Message):
 async def today_arrivals(message: types.Message):
     my_parser = Parser(type_of_schedule='Departures', day='Today')
     my_parser.run()
-    for flight in my_parser.all_flights:
+    for flight in my_parser.list_of_flights:
         await message.answer(f'{flight}')
-    await message.answer('stop')
 
 
 @dp.message_handler()
