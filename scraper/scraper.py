@@ -1,4 +1,5 @@
 import time
+import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver import SafariOptions
@@ -58,7 +59,7 @@ class Parser:
         return self.day_index
 
     def get_chosen_button(self):
-        time.sleep(5)
+        time.sleep(2)
         self.days_buttons = self.driver.find_elements(By.XPATH, f"//div[@class='flight-day__filter']//p[@data-day="
                                                                 f"{self.day_index}]")
         if self.type_of_schedule == 'Arrivals':
@@ -70,17 +71,30 @@ class Parser:
     def get_all_flights(self):
         self.chosen_button.click()
         self.get_the_table()
-        time.sleep(5)
+        time.sleep(2)
         self.all_flights = self.table.find_elements(By.TAG_NAME, 'tr')
+        # for flight in self.all_flights:
+        #     destination = flight.find_element(By.CLASS_NAME, 'destination__flight')
+        #     flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
+        #     scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
+        #     airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
+        #     gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
+        #     status = flight.find_element(By.CLASS_NAME, 'status__flight')
+        #     self.list_of_flights.append([destination.text, flight_number.text, scheduled.text, airline.text, gate.text,
+        #                                  status.text])
+
+    def find_flights_by_city(self, city="Vie"):
         for flight in self.all_flights:
             destination = flight.find_element(By.CLASS_NAME, 'destination__flight')
-            flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
-            scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
-            airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
-            gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
-            status = flight.find_element(By.CLASS_NAME, 'status__flight')
-            self.list_of_flights.append([destination.text, flight_number.text, scheduled.text, airline.text, gate.text,
-                                         status.text])
+            flag = re.findall(city[:4], destination.text)
+            if flag:
+                flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
+                scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
+                airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
+                gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
+                status = flight.find_element(By.CLASS_NAME, 'status__flight')
+                self.list_of_flights.append([destination.text, flight_number.text, scheduled.text, airline.text,
+                                             gate.text, status.text])
 
     def run(self):
         self.choose_the_url()
@@ -88,6 +102,7 @@ class Parser:
         self.run_webdriver()
         self.get_chosen_button()
         self.get_all_flights()
+        self.find_flights_by_city()
         self.driver.quit()
 
 
