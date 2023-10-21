@@ -1,9 +1,10 @@
 from scraper import Parser
 if __name__ == '__main__':
-    my_parser = Parser(type_of_schedule='Departures', day='Today')
+    # my_parser = Parser(type_of_schedule='Departures', day='Today')
+    # my_parser.run()
+    my_parser = Parser(type_of_schedule='Departures', day='Tomorrow')
     my_parser.run()
     print(my_parser.list_of_flights)
-    # my_parser = Parser(type_of_schedule='Departures', day='Tomorrow')
     # my_parser.run()
     # my_parser = Parser(type_of_schedule='Departures', day='Yesterday')
     # my_parser.run()
