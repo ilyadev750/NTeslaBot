@@ -10,10 +10,11 @@ URL_ARRIVALS = "https://beg.aero/eng/flights#arrivals"
 
 class Parser:
 
-    def __init__(self, type_of_schedule, day):
+    def __init__(self, type_of_schedule, day, city):
         self.type_of_schedule = type_of_schedule
         self.options = None
         self.day = day
+        self.city = city
         self.url = None
         self.driver = None
         self.options = None
@@ -73,20 +74,11 @@ class Parser:
         self.get_the_table()
         time.sleep(2)
         self.all_flights = self.table.find_elements(By.TAG_NAME, 'tr')
-        # for flight in self.all_flights:
-        #     destination = flight.find_element(By.CLASS_NAME, 'destination__flight')
-        #     flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
-        #     scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
-        #     airline = flight.find_element(By.CLASS_NAME, 'company__flight.thide')
-        #     gate = flight.find_element(By.CLASS_NAME, 'hall__flight.thide')
-        #     status = flight.find_element(By.CLASS_NAME, 'status__flight')
-        #     self.list_of_flights.append([destination.text, flight_number.text, scheduled.text, airline.text, gate.text,
-        #                                  status.text])
 
-    def find_flights_by_city(self, city="Vie"):
+    def find_flights_by_city(self):
         for flight in self.all_flights:
             destination = flight.find_element(By.CLASS_NAME, 'destination__flight')
-            flag = re.findall(city[:4], destination.text)
+            flag = re.findall(self.city[:4], destination.text)
             if flag:
                 flight_number = flight.find_element(By.CLASS_NAME, 'number__flight')
                 scheduled = flight.find_element(By.CLASS_NAME, 'hour__flight')
