@@ -1,7 +1,6 @@
 from scraper.scraper import Parser
-from keyboards import keyboard_1, keyboard_2
-from aiogram import types, Dispatcher
-
+from keyboards import keyboard_1, keyboard_2, keyboard_3
+from aiogram import types
 from aiogram import exceptions
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
@@ -22,6 +21,11 @@ async def echo(message: types.Message, state: FSMContext):
     await state.set_state(Params.waiting_for_flight_type.state)
 
 
+@dp.message_handler()
+async def echo(message: types.Message):
+    await message.answer(text="Please, input '/start' command to begin", reply_markup=keyboard_3)
+
+
 @dp.message_handler(state=Params.waiting_for_flight_type.state)
 async def arrivals_or_departures(message: types.Message, state: FSMContext):
     if message.text not in TYPES_OF_FLIGHT:
@@ -39,17 +43,18 @@ async def arrivals_or_departures(message: types.Message, state: FSMContext):
 async def choose_the_day(message: types.Message, state: FSMContext):
     user_message = message.text.capitalize()
     if user_message not in TYPES_OF_DAYS:
-        await message.answer('Please, choose the correct day:')
+        await message.answer('Please, choose the correct day:', reply_markup=keyboard_2)
         return
     await state.update_data(day=message.text)
     await state.set_state(Params.waiting_for_city.state)
-    await message.answer('Please, input the city:')
+    await message.answer('Please, input the city:', reply_markup=types.ReplyKeyboardRemove())
 
 
 @dp.message_handler(state=Params.waiting_for_city.state)
 async def input_the_city(message: types.Message, state: FSMContext):
     if message.text:
-        await state.update_data(city=message.text.capitalize())
+        city = message.text.lower()
+        await state.update_data(city=city.capitalize())
         await state.set_state(Params.waiting_for_start.state)
         await message.answer("Please, type any symbol for starting bot")
     else:
@@ -69,6 +74,7 @@ async def run_bot(message: types.Message, state: FSMContext):
         for flight in user_parser.list_of_flights:
             await message.answer(f'{flight}')
         await state.finish()
+    await message.answer("For the new search please input '/start' command", reply_markup=keyboard_3)
 
 
 @dp.errors_handler(exception=exceptions.RetryAfter)
