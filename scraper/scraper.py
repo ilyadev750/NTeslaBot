@@ -2,7 +2,6 @@ import time
 import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver import SafariOptions
 
 
 URL_DEPARTURES = "https://beg.aero/eng/flights#departures"
@@ -26,12 +25,7 @@ class Parser:
         self.list_of_flights = []
 
     def run_webdriver(self):
-        self.options = SafariOptions()
-        self.options.add_argument('--disable-blink-features=AutomationControlled')
-        self.options.add_argument('--headless')
-        self.options.add_argument('--no-sandbox')
-        self.options.add_argument('--disable-dev-shm-usage')
-        self.driver = webdriver.Safari(options=self.options)
+        self.driver = webdriver.Safari()
         self.driver.get(self.url)
         return self.driver
 
